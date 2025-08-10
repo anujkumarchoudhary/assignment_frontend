@@ -15,10 +15,14 @@ const Heading = () => {
     const [openProfile, setOpenProfile] = useState(false)
 
     const userInfo = useSelector((state) => state?.global?.user)
-    const userToken = localStorage.getItem("token")
-    console.log(userToken, "userTokenejirew")
-    console.log(userInfo, "userInfoJDE")
-    console.log(userInfo?.token, "userInfoJDE")
+
+    if (typeof window !== "undefined") {
+        const userToken = localStorage.getItem("token")
+        console.log(userToken, "userTokenejirew")
+        console.log(userInfo, "userInfoJDE")
+        console.log(userInfo?.token, "userInfoJDE")
+    }
+
 
     return (
         <div className='flex justify-between bg-amber-10w0 border-b border-b-slate-200  px-8 py-2.5'>

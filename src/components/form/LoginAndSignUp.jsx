@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
 import InputField from '../ui/InputField';
 import SimpleButton from '../ui/SimpleButton';
@@ -58,11 +60,14 @@ const LoginAndSignUp = ({ handleClose }) => {
       if (isLogin) {
         const res = await dispatch(userLogin(body)).unwrap()
         console.log(res, "reseewrwerew")
+
         toast.success(res?.message || "Login Successfully!")
-        localStorage.setItem("token", res?.token)
-        localStorage.setItem("role", res?.user?.role)
-        localStorage.setItem("name", res?.user?.name)
-        localStorage.setItem("email", res?.user?.email)
+        if (typeof window !== "undefined") {
+          localStorage.setItem("token", res?.token)
+          localStorage.setItem("role", res?.user?.role)
+          localStorage.setItem("name", res?.user?.name)
+          localStorage.setItem("email", res?.user?.email)
+        }
 
         if (res?.user?.role === "user") {
           router.push("/user")
@@ -123,7 +128,7 @@ const LoginAndSignUp = ({ handleClose }) => {
                 checked={inputVal.role === "librarian"}
                 onChange={handleChange}
               />
-              <span className='mt-4 text-xs'>{isLogin ? "Remember":"Are you librarian ?"}</span>
+              <span className='mt-4 text-xs'>{isLogin ? "Remember" : "Are you librarian ?"}</span>
             </div>
             {isLogin && <span className='mt-4 cursor-pointer text-sm'>Forgot Password</span>}
           </div>

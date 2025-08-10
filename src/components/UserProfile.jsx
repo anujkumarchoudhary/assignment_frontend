@@ -1,3 +1,4 @@
+"use client";
 import { clearUserData } from '@/redux/slices/globalSlice';
 import { useRouter } from 'next/navigation';
 import React from 'react'
@@ -11,12 +12,15 @@ const UserProfile = ({ handleClose }) => {
     console.log(userInfo, " userInfoewqe")
     const handleLogout = async () => {
         dispatch(clearUserData)
-        localStorage.removeItem("token")
-        localStorage.removeItem("role")
-        localStorage.removeItem("name")
-        localStorage.removeItem("email")
-        router.push("/")
-        handleClose()
+        if (typeof window !== "undefined") {
+            localStorage.removeItem("token")
+            localStorage.removeItem("role")
+            localStorage.removeItem("name")
+            localStorage.removeItem("email")
+            router.push("/")
+            handleClose()
+        }
+
     }
 
     return (
