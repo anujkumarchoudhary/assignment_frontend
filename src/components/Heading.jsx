@@ -16,13 +16,7 @@ const Heading = () => {
 
     const userInfo = useSelector((state) => state?.global?.user)
 
-    if (typeof window !== "undefined") {
-        const userToken = localStorage.getItem("token")
-        console.log(userToken, "userTokenejirew")
-        console.log(userInfo, "userInfoJDE")
-        console.log(userInfo?.token, "userInfoJDE")
-    }
-
+    const userToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     return (
         <div className='flex justify-between bg-amber-10w0 border-b border-b-slate-200  px-8 py-2.5'>
@@ -50,27 +44,40 @@ const Heading = () => {
                     ))}</>}
             </div>
             <div className='relative flex gap-2 my-auto'>
-                {headerData.rightSide?.map((item, idx) => {
-                    const isAddBook = item?.name === "Add Book";
-                    const handleClick = () => {
-                        if (isAddBook) {
-                            setOpenBookForm(!openBookForm)
-                        } else {
-                            if (userToken) {
-                                console.log(userInfo?.token, "userInfo?.tokenhitete")
-                                setOpenProfile(!openProfile)
-                            } else {
-                                setLoginAndSignUp(!loginAndSignUpOpen);
-                            }
+                {headerData.rightSide
+                    ?.filter(item => {
+                        if (item.name === "Add Book") {
+                            return userInfo?.role === "librarian";
                         }
-                    };
-                    return (
-                        <div onClick={handleClick} key={idx} className={`flex ${item.name === "Add Book" && "gap-1 px-"} bg-[#836542] text-[#FFFFFF] px-3 py-2 rounded-sm cursor-pointer`}>
-                            <span className='my-auto'> {item?.icon}</span>
-                            <p className='hidden md:block text-md'>{item?.name}</p>
-                        </div>
-                    )
-                })}
+                        return true; // keep other items
+                    })
+                    .map((item, idx) => {
+                        const isAddBook = item?.name === "Add Book";
+                        const handleClick = () => {
+                            if (isAddBook) {
+                                setOpenBookForm(!openBookForm);
+                            } else {
+                                if (userToken) {
+                                    console.log(userInfo?.token, "userInfo?.tokenhitete");
+                                    setOpenProfile(!openProfile);
+                                } else {
+                                    setLoginAndSignUp(!loginAndSignUpOpen);
+                                }
+                            }
+                        };
+
+                        return (
+                            <div
+                                onClick={handleClick}
+                                key={idx}
+                                className={`flex ${isAddBook && "gap-1"} bg-[#836542] text-[#FFFFFF] px-3 py-2 rounded-sm cursor-pointer`}
+                            >
+                                <span className="my-auto">{item?.icon}</span>
+                                <p className="hidden md:block text-md">{item?.name}</p>
+                            </div>
+                        );
+                    })}
+
                 {openProfile &&
                     <div className='absolute top-14 right-12'>
                         <UserProfile handleClose={() => setOpenProfile(false)} />

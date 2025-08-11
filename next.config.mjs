@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost', 'your-image-domain.com'], // add your image source domains here
+    domains: [
+      'localhost',
+      'res.cloudinary.com' // 👈 add Cloudinary
+    ],
   },
 };
 

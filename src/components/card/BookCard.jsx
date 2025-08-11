@@ -17,14 +17,20 @@ const BookCard = ({ id, idx, img, name, author, condition, status, handleAcceptA
     }
     return (
         <div className='bg-[#FFFFFF] rounded-lg'>
-            <div className='bg-yellow-200 w-full h-[10rem] overflow-hidden'>
-                <Image
-                    src={img}
-                    width={900}
-                    height={900}
-                    alt='fbf'
-                    className='overflow-ato'
-                />
+            <div className='w-full h-[10rem] overflow-hidden'>
+                {img ? (
+                    <Image
+                        src={img}
+                        width={900}
+                        height={900}
+                        alt={name || "Book"}
+                        className="overflow-auto"
+                    />
+                ) : (
+                    <div className="flex items-center justify-center w-full h-full bg-gray-200 text-gray-500">
+                        No Image
+                    </div>
+                )}
             </div>
             <div className=' relative p-4'>
                 <p className='text-xl font-semi-bold'>{name && name?.slice(0, 25)}</p>
